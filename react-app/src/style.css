@@ -1,0 +1,78 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url("./images/react-logo-black-and-white.png");
+    background-repeat: no-repeat;
+    background-position: right 75%;
+    margin: 0;
+    font-family: Inter, sans-serif;
+    padding: 0;
+    /* background-color: #282D35; */
+}
+
+.nav-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #21222A;
+    height: 90px;
+    padding: 30px 25px;
+}
+
+.nav--div--h3, .nav--h4{
+    margin: 0;
+}
+
+.nav--h4{
+    color: #DEEBF8;
+    font-weight: 600;
+}
+.nav--div{
+    display: flex;
+    align-items: center;
+}
+
+.nav--div--h3{
+    color: #61DAFB;
+    font-weight: 700;
+}
+
+.nav--div--img{
+    margin-right: 7px;
+}
+
+main{
+    /* color: white; */
+    padding: 57px 27px;
+}
+
+.content--h1{
+    margin: 0;
+    font-size: 39px;
+    letter-spacing: -0.05em;
+}
+
+li{
+    padding-bottom: 7px;
+}
+.content--ul{
+    margin-top: 46px;
+}
+
+.content--ul > li{
+    line-height: 19px;
+    padding-block: 10px;
+}
+
+.content--ul > li::marker{
+    font-size: 1.4rem;
+    color: #61DAFB;
+
+}
+
+.darkMode{
+    background-color: #282D35;
+    color: white;
+}
