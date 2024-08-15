@@ -15,7 +15,7 @@ export default function GameBoard({isX, handleActivePlayer}) {
               updatedBoard[rowIndex][colIndex] = isX ? 'X' : 'O';
               return updatedBoard;
           });
-          handleActivePlayer();
+          handleActivePlayer(rowIndex, colIndex);
       }
 
     return  <ol id='game-board'>
