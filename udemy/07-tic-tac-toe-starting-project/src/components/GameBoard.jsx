@@ -1,30 +1,28 @@
 import {useState} from 'react';
-const initialGameBoard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-  ];
-export default function GameBoard({isX, handleActivePlayer}) {
-    const [gameBoard, setGameBoard] = useState(initialGameBoard);
-    function updateGameBoard(rowIndex, colIndex) {
-        if(gameBoard[rowIndex][colIndex] != null){
-          return;
-        }
-          setGameBoard((prevBoard) => {
-              const updatedBoard = [...prevBoard.map(innerArray => [...innerArray])]
-              updatedBoard[rowIndex][colIndex] = isX ? 'X' : 'O';
-              return updatedBoard;
-          });
-          handleActivePlayer(rowIndex, colIndex);
-      }
+
+export default function GameBoard({board, handleActivePlayer}) {
+
+    
+    // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+    // function updateGameBoard(rowIndex, colIndex) {
+    //     if(gameBoard[rowIndex][colIndex] != null){
+    //       return;
+    //     }
+    //       setGameBoard((prevBoard) => {
+    //           const updatedBoard = [...prevBoard.map(innerArray => [...innerArray])]
+    //           updatedBoard[rowIndex][colIndex] = isX ? 'X' : 'O';
+    //           return updatedBoard;
+    //       });
+    //       handleActivePlayer(rowIndex, colIndex);
+    //   }
 
     return  <ol id='game-board'>
-        {gameBoard.map((row, rowIndex) => (
+        {board.map((row, rowIndex) => (
             <li key={rowIndex}>
             <ol>
             {row.map((playerSymbol, colIndex) => (
                 <li key={colIndex}>
-                    <button onClick={()=>updateGameBoard(rowIndex, colIndex)}>{playerSymbol}</button>
+                    <button onClick={()=>handleActivePlayer(rowIndex, colIndex)} disabled={playerSymbol !== null}>{playerSymbol}</button>
                 </li>
             ))}
         </ol>
