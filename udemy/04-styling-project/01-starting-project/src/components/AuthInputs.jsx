@@ -61,7 +61,7 @@ export default function AuthInputs() {
           />
         </p>
         <p>
-          <Label $nvalid = {passwordNotValid}>Password</Label>
+          <Label $invalid = {passwordNotValid}>Password</Label>
           <Input
             type="password"
             $invalid={passwordNotValid}
