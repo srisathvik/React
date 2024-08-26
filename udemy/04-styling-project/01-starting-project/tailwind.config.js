@@ -6,7 +6,11 @@ export default {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        title:['"pacifio"', 'cursive']
+      }
+    },
   },
   plugins: [],
 }
