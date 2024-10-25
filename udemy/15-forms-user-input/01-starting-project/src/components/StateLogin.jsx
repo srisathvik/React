@@ -1,76 +1,57 @@
-import {useState } from "react";
-
+import Input from "./Input";
+import useInput from "../hooks/useInput";
+import {isEmail, isNotEmpty, hasMinLength} from '../util/validation'
 export default function StateLogin() {
 
-  const[enteredValues, setEnteredValues] = useState({
-    Email: '',
-    Password: ''
-  });
+  const {
+    value: emailValue,
+    handleInputChange: handleEmailChange,
+    handleInputBlur: handleEmailBlur,
+    hasError: emailHasError
+  } = useInput('', (value) => isEmail(value) && isNotEmpty(value));
 
-  const[didEdit, setDidEdit] = useState({
-    Email: false,
-    Password: false,
-  })
+  const{
+    value: passwordValue,
+    handleInputChange: handlePasswordChange,
+    handleInputBlur: handlePasswordBlur,
+    hasError: passwordHasError
+  } = useInput('', (value) =>hasMinLength(value, 6));
+  // const emailIsInvalid = didEdit.Email && isEmail(enteredValues.Email) && !isNotEmpty(enteredValues.Email);
+  // const passwordIsInvalid = didEdit.Password && !hasMinLength(enteredValues.Password, 6);
 
-  const emailIsInvalid = didEdit.Email != '' && !enteredValues.Email.includes('@');
   function handleSubmit(event){
     event.preventDefault();
-    console.log("user Email: " + enteredValues.Email + " user Password: ", enteredValues.Password);
+    if(emailHasError || passwordHasError){
+      return; 
+    }
+    console.log(emailValue, passwordValue);
   }
-
-  function handleInputChange(identifier, event) {
-    setEnteredValues(prevValues => ({
-      ...prevValues,
-      [identifier] : event.target.value
-    }));
-
-    setDidEdit(prevData =>({
-        ...prevData,
-        [identifier] : false
-    }));
-  }
-
-  function handleInputBlur(identifier) {
-        setDidEdit(prevData => ({
-            ...prevData,
-            [identifier] : true
-        }))
-  }
-  // function handlePasswordChange(identifier, event) {
-  //   setEnteredPassword(event.target.value);
-  // }
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input 
-            id="email" 
-            type="email" 
-            name="email" 
-            // ref={email}
-            onBlur={()=>{handleInputBlur('Email')}}
-            value={enteredValues.Email}
-            onChange={(event) => {handleInputChange("Email", event)}}
-
+        <Input 
+          label="Email" 
+          id="email" 
+          type="email" 
+          name="email" 
+          onBlur={handleEmailBlur}
+          value={emailValue}
+          onChange={handleEmailChange}
+          error={emailHasError && "Enter valid Email"}
           />
-          <div className="control-error">{emailIsInvalid && <p>Enter valid Email</p>}</div>
-        </div>
-
-        <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input 
-            id="password" 
-            type="password" 
-            name="password" 
-            // ref={password}
-            value={enteredValues.Password}
-            onChange={(event) => {handleInputChange("Password", event)}}
+        <Input 
+          label="Password" 
+          id="password" 
+          type="password" 
+          name="password" 
+          onBlur={handlePasswordBlur}
+          value={passwordValue}
+          onChange={handlePasswordChange}
+          error={passwordHasError && "Enter valid Password"}
           />
-        </div>
       </div>
 
       <p className="form-actions">
