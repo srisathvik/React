@@ -1,5 +1,10 @@
+import { useContext } from "react";
+import { ItemsContext } from "../App";
 
-export default  function Input({addTodo, item}) {
+export default  function Input() {
+    const{editItem, submit} = useContext(ItemsContext);
+    const item = editItem;
+    const addTodo = submit;
     // console.log(addTodo);
    function handleSubmit(e){
     e.preventDefault();

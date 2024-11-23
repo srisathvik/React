@@ -1,6 +1,9 @@
 import Todo from "./Todo";
+import { ItemsContext } from "../App";
+import { useContext } from "react";
 
-export default function todos({items, handleDelete, handleEdit}) {
+export default function Todos() {
+    const{items} = useContext(ItemsContext);
     if(items.length === 0){
         return <h1>No Active TODOs</h1>
     }
@@ -11,10 +14,10 @@ export default function todos({items, handleDelete, handleEdit}) {
         <>
             <h1>Active Todos: </h1>
             <ul>
-            {activeTodos.map((item) => <Todo item={item} key={item.id} handleDelete={handleDelete} handleEdit={handleEdit}/> )}
+            {activeTodos.map((item) => <Todo item={item} key={item.id} /> )}
             </ul>
             <h1>completed Todos: </h1>
-            <ul>{completedTodos.map((item) => <Todo item={item} key={item.id} handleDelete={handleDelete} handleEdit={handleEdit}/>)}</ul>
+            <ul>{completedTodos.map((item) => <Todo item={item} key={item.id} />)}</ul>
         </>
         
     )

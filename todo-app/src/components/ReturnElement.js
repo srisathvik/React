@@ -1,12 +1,12 @@
 import Input from "./Input"
 import Todos from "./Todos"
 
-export default function ReturnElement({required, todos, addTodo, handleDelete, handleEdit}) {
+export default function ReturnElement({required}) {
     // console.log(handleDelete);
     if(required === "todos"){
-        return <Todos items={todos} handleDelete={handleDelete} handleEdit={handleEdit}/>
+        return <Todos />
     }
     if(required === "newTodo"){
-        return <Input addTodo={addTodo} />
+        return <Input />
     }
 }   
