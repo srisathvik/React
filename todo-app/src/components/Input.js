@@ -10,17 +10,26 @@ export default  function Input() {
     e.preventDefault();
     let data = new FormData(e.target);
     const formObject = Object.fromEntries(data.entries());
-    console.log(formObject);
+    // console.log(formObject);
     if(formObject.completed === undefined){
-        formObject.completed = "off";
-        console.log(formObject);
+        formObject.completed = false;
+        // console.log(formObject);
     }
+    // else{
+    //     formObject.completed = true;
+    // }
     if(item){
         
-        formObject.id = item.id;
-        console.log(formObject);
+        formObject.taskId = item.taskId;
+        if(formObject.completed === "on"){
+            formObject.completed = true
+
+        }   
+        // console.log(formObject);
         // formObject.completed = item.completed;
     }
+    // console.log(formObject);
+    // console.log("before addding: ");
     // console.log(formObject);
     addTodo(formObject)
 
@@ -37,10 +46,10 @@ export default  function Input() {
                     <label htmlFor="description">Description: </label>
                     <textarea name="description" id="description" placeholder="Enter Description" required defaultValue={item? item.description : ""} />
                 </p>
-                <p>
-                    <input type="checkbox" id="completed" name="completed" defaultChecked = {item?.completed === "on"? true : false} />
+                {item && (<p>
+                    <input type="checkbox" id="completed" name="completed" defaultChecked = {item?.completed === true } />
                     <label htmlFor="completed">Mark this item as completed</label>
-                </p>
+                </p>)}
                 <button>{item ? "Save" : "Add New Item" }</button>
             </form>
         </div>
