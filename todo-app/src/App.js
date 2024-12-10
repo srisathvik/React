@@ -1,12 +1,11 @@
 
 import { createContext, useEffect, useState } from "react";
-// import Input from "./components/Input";
 import ReturnElement from "./components/ReturnElement";
 import Input from "./components/Input";
-// import Todos from "./"
-// import apiService from "./apiService";
-import apis from "../src/apiService";
-// import apiService from "../src/apiService";
+import apis from "./apiService";
+import "./app.css";
+
+
 
 export const ItemsContext = createContext({
   items: [],
@@ -23,9 +22,8 @@ function App() {
   const[todos, setTodos] = useState([])
   const[currentDisplay, setCurrentDisplay] = useState("todos");
   const[editID, setEditID] = useState(undefined);
-  // console.log(todos);
-  // const[data, setData] = useState();
   const[shouldFetch, setShouldFetch] = useState(true);
+  const[showModal, setShowModal] = useState(false);
   useEffect(() =>{
     async function  getData() {
      const values = await apis.get();
@@ -37,73 +35,29 @@ function App() {
     }
 
   }, [shouldFetch])
+  console.log(todos);
   
-  // let body = {
-  //         "Id": 1,
-  //         "title": "Study",
-  //         "description": "study for half hour",
-  //         "completed": true
-  //       }
-  // // console.log(apis.post);
-  // // console.log(body);
-  // async function test() {
-  //   const temp = await apis.post(body);
-  //   // console.log(temp);
-  //   if(temp.statusCode === "201"){
-  //     console.log("fetch data");
-  //     console.log(temp);
-  //   }
-  // }
-  // test();
-  // console.log(temp);
-  function replaceItem(todo) {
-    let temp = todos.map((item) =>{
-      if(item.id === todo.id){
-        return todo;
-      }
-      return item;
-    });
-    setTodos([...temp]);
-    // setCurrentDisplay("todos");
-    // setEditID(undefined);
-  }
   async function handleSubmit(todo) {
-    // console.log(todo);
     if(todo.taskId){
-      // replaceItem(todo);
-      // console.log("update called");
       const res = await apis.put(todo);
-      // console.log(res);
       
     }
     else{
       todo.Id = todos.length;
-      // setTodos(
-      //   [
-      //     todo,
-      //     ...todos
-      //   ]
-      // );
-      // console.log(todo);
       const res = await apis.post(todo);
-      // console.log(res);
     }
     setShouldFetch(true);
     setCurrentDisplay("todos");
     setEditID(undefined);
   }
   function handleEdit(item){
-    // console.log(item);
     setEditID(item);
   }
 
   async function handleDelete(id) {
-    // let temp = todos.filter((item) => item.id !== id);
-    // console.log(id);
+
     const res = await apis.delete(id);
     setShouldFetch(true);
-    // console.log(temp);
-    // setTodos(temp);
   }
   function handleButton(){
     if(currentDisplay === "todos"){
@@ -120,16 +74,19 @@ function App() {
     editItem: editID,
     submit: handleSubmit,
     edit: handleEdit,
-    remove: handleDelete
+    remove: handleDelete,
+    showModal,
+    setShowModal,
   }
  if(editID){
  
   return(
     <ItemsContext.Provider value={ctxValue}>
-
-      <Input item={editID} addTodo={handleSubmit}/>
-      <button onClick={() =>{setEditID(undefined)}}>cancel</button>
-
+      <div className="container todo-app">
+        <Input item={editID} addTodo={handleSubmit}/>
+        {/* <button onClick={() =>{setEditID(undefined)}}>cancel</button> */}
+      </div>
+      
     </ItemsContext.Provider>
     
   )
@@ -137,13 +94,14 @@ function App() {
  
   return (
     <ItemsContext.Provider value={ctxValue}>
-
-      <button onClick={handleButton}>{currentDisplay === "todos" ? "Add Item" : "Todos" }</button>
-      <ReturnElement required={currentDisplay} todos={todos} addTodo={handleSubmit} handleDelete={handleDelete} handleEdit={handleEdit} />
-
+      <div className="container todo-app" onClick = {() =>{setShowModal(false)}}>
+        <button onClick={handleButton}>{currentDisplay === "todos" ? "Add Item" : "Todos" }</button>
+        <div className="todos">
+            <ReturnElement required={currentDisplay} todos={todos} addTodo={handleSubmit} handleDelete={handleDelete} handleEdit={handleEdit} />
+        </div>
+      </div>
     </ItemsContext.Provider>
     
-    // <Input addTodo={handleSubmit}/>
   );
 }
 

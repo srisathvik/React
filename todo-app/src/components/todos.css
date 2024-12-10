@@ -1,0 +1,81 @@
+.completed{
+    background-color:rgb(10, 228, 65);
+    padding: 5px;
+    padding-left: 10px;
+}
+.completed-title{
+    text-decoration: line-through;
+}
+.todos-container {
+    display: flex;
+    flex-direction: row;
+    width: 50vw;
+    justify-content: space-around;
+  }
+  
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .active-todos, .completed-todos {
+    margin-bottom: 15px;
+  }
+  
+  .todo-item {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .completed .todo-text {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  .todo-item button {
+    background-color: transparent;
+    color: #e74c3c;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .active-todos .todo-item {
+    background-color: #4a90e2;
+    color: white;
+  }
+  
+  .completed-todos .todo-item {
+    background-color: #50e3c2;
+    color: white;
+  }
+
+  button{
+    padding: 5px;
+    /* margin: 5px; */
+  }
+  .delete-button{
+    background-color: #e74c3c;
+  }
+  .delete-button:hover{
+    background-color: #8f2b20;
+  }
+  .todo-container {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Adds space between the elements */
+  }
+  
+  .completed-title {
+    text-decoration: line-through; /* Optional: If you want the title to show a strikethrough when completed */
+  }
+  
+  .delete-button {
+    margin-left: auto; /* Pushes the delete button to the far right */
+  }
+  

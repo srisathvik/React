@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ItemsContext } from "../App";
+import "./input.css";
 
 export default  function Input() {
     const{editItem, submit} = useContext(ItemsContext);
@@ -36,7 +37,7 @@ export default  function Input() {
    }
 //    console.log(item);
     return(
-        <div>
+        <div className="input-container">
             <form onSubmit={handleSubmit}>
                 <p>
                     <label htmlFor="title">Title: </label>
@@ -46,10 +47,6 @@ export default  function Input() {
                     <label htmlFor="description">Description: </label>
                     <textarea name="description" id="description" placeholder="Enter Description" required defaultValue={item? item.description : ""} />
                 </p>
-                {item && (<p>
-                    <input type="checkbox" id="completed" name="completed" defaultChecked = {item?.completed === true } />
-                    <label htmlFor="completed">Mark this item as completed</label>
-                </p>)}
                 <button>{item ? "Save" : "Add New Item" }</button>
             </form>
         </div>
