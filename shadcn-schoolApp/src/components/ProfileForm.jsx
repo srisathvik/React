@@ -6,6 +6,7 @@ import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {Label} from "@/components/ui/label"
+import { Link } from "react-router-dom"
 import {
   Form,
   FormControl,
@@ -53,71 +54,77 @@ export default function ProfileForm({addEntry}) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // console.log(values)
-    let time = new Date().toLocaleTimeString();
+    let inTime = new Date().toLocaleTimeString();
     let date = new Date().toLocaleDateString();
     let id = Date.now().toString(36)
+    let outTime= "";
     // console.log(time);
     // console.log(date);
-    values = {...values,time, date, isActive: true, id};
+    values = {...values, inTime, outTime, date, isActive: true, id};
     // console.log(values);
     addEntry(values);
     // console.log(values);
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <InputWithLabel type="username" label="Name:  " pHolder="Enter your Name" field={field}/>
-              </FormControl>
-              <FormMessage />
+    
+    <>
+      <Link to="..">Home</Link>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <InputWithLabel type="username" label="Name:  " pHolder="Enter your Name" field={field}/>
+                </FormControl>
+                <FormMessage />
 
 
-              {/* <FormLabel>Username:  </FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your Name" {...field} />
-              </FormControl>
-              <FormMessage /> */}
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="mobile"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <InputWithLabel type="mobile" label="Mobile:  " pHolder="Enter your Number" field={field}/>
-                {/* <PhoneInput /> */}
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="reason"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                {/* <InputWithLabel type="mobile" label="Mobile:  " pHolder="Enter your Number" field={field}/> */}
-                <div className="grid w-full gap-1.5">
-                  <Label htmlFor="message">Reason for Visit:  </Label>
-                  <Textarea placeholder="Type your message here." id="message" {...field}/>
-                </div>
-                {/* <PhoneInput /> */}
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="bg-slate-50 text-black">Submit</Button>
-      </form>
-    </Form>
+                {/* <FormLabel>Username:  </FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Your Name" {...field} />
+                </FormControl>
+                <FormMessage /> */}
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="mobile"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <InputWithLabel type="tel" label="Mobile:  " pHolder="Enter your Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" field={field}/>
+                  {/* <PhoneInput /> */}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="reason"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {/* <InputWithLabel type="mobile" label="Mobile:  " pHolder="Enter your Number" field={field}/> */}
+                  <div className="grid w-full gap-1.5">
+                    <Label htmlFor="message">Reason for Visit:  </Label>
+                    <Textarea placeholder="Type your message here." id="message" {...field}/>
+                  </div>
+                  {/* <PhoneInput /> */}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="bg-slate-50 text-black">Submit</Button>
+        </form>
+      </Form>
+    </>
+    
   )
 }
