@@ -1,3 +1,4 @@
+import { myContext } from "@/App";
 import {
     Table,
     TableBody,
@@ -8,68 +9,26 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { Button } from "./ui/button"
+// import { Button } from "./ui/button"
 import { Trash2 } from 'lucide-react';
 import { Pencil } from 'lucide-react';
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-  const invoices = [
-    {
-      stockName: "State Bank Of India",
-      ticker: "SBI",
-      buyingPrice: 250,
-      currentPrice: 300,
-      quantity: 1,
-    },
-    {
-        stockName: "TATA STEEL LIMITED",
-        ticker: "TSL",
-        buyingPrice: 300,
-        currentPrice: 444,
-        quantity: 1,
-    },
-    {
-        stockName: "HERITAGE",
-        ticker: "HT",
-        buyingPrice: 250,
-        currentPrice: 200,
-        quantity: 1,
-    },
-    {
-        stockName: "MOTHERSON",
-        ticker: "MTS",
-        buyingPrice: 250,
-        currentPrice: 550,
-        quantity: 1,
-    },
-    {
-        stockName: "GOOGLE",
-        ticker: "GL",
-        buyingPrice: 550,
-        currentPrice: 570,
-        quantity: 1,
-    },
-    {
-        stockName: "NVIDIA",
-        ticker: "NVD",
-        buyingPrice: 700,
-        currentPrice: 720,
-        quantity: 1,
-    },
-    {
-        stockName: "MICROSOFT LIMITED",
-        ticker: "MSL",
-        buyingPrice: 450,
-        currentPrice: 444,
-        quantity: 1,
-    },
-  ]
+  
   
   export function TableDemo() {
+    const [hovered, setHovered] = useState();
+    const{stocks, setModifyStock, deleteStock} = useContext(myContext);
+    const navigation = useNavigate();
     function handleEdit(stock){
-      console.log(stock);
+      setModifyStock(stock);
+      navigation("./addStock");
+      // console.log(stock);
     }
     function handleDelete(stock){
-      console.log(stock);
+      deleteStock(stock);
+      // console.log(stock);
     }
     return (
       <Table>
@@ -77,29 +36,42 @@ import { Pencil } from 'lucide-react';
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Stock</TableHead>
-            <TableHead>Ticker</TableHead>
+            {/* <TableHead>Ticker</TableHead> */}
             <TableHead>Quantity</TableHead>
             <TableHead>Invested Amount</TableHead>
             <TableHead>Cuurent Amount</TableHead>
-            <TableHead className="text-right">P&L</TableHead>
+            <TableHead className="text-center">P&L</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.stockName}</TableCell>
-              <TableCell className="font-medium">{invoice.ticker}</TableCell>
-              <TableCell className="text-center">{invoice.quantity}</TableCell>
-              <TableCell className="text-center">{invoice.quantity * invoice.buyingPrice}</TableCell>
-              <TableCell className="text-center">{invoice.quantity * invoice.currentPrice}</TableCell>
-              <TableCell className="text-right">{(invoice.quantity * invoice.currentPrice) - (invoice.quantity * invoice.buyingPrice)}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex p-px">
-                    <Button className="w-10 h-10" onClick={() =>{handleEdit(invoice)}}><Pencil /></Button>
-                    <Button className="space-x-1.5 bg-red-700 w-10 h-10" onClick={()=>{handleDelete(invoice)}}><Trash2 /></Button>
-                </div>
-              </TableCell>
+          {stocks.map((stock) => (
+            <TableRow key={stock.id} onMouseEnter={e => {
+              setHovered(stock.id);
+          }}
+          onMouseLeave={e => {
+              setHovered(undefined);
+          }}>
+           {/* {let p = (stock.quantity * stock.currentPrice) - (stock.quantity * stock.buyingPrice)} */}
+              {/* <div > */}
+                <TableCell className="font-medium">{stock.stockName}</TableCell>
+                {/* <TableCell className="font-medium">{stock.ticker}</TableCell> */}
+                <TableCell className="text-center">{stock.quantity}</TableCell>
+                <TableCell className="text-center">{stock.quantity * stock.buyingPrice}</TableCell>
+                <TableCell className="text-center">{stock.quantity * stock.currentPrice}</TableCell>
+                <TableCell className={`text-center ${stock.PandL > 0? "text-green-500" : "text-red-500"}`}>
+                  <div>
+                    <p>{stock.PandL}</p>
+                    <p>({(100 * stock.PandL / stock.currentPrice).toFixed(2)} % )</p>
+                  </div>  
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex p-px" style={{visibility: hovered === stock.id ? "visible" : "hidden"}} >
+                      <div className="p-1" onClick={() =>{handleEdit(stock)}}><Pencil className="w-4 h-4" /></div>
+                      <div className="p-1" onClick={()=>{handleDelete(stock)}}><Trash2 className="w-4 h-4" /></div>
+                  </div>
+                </TableCell>
+              {/* </div> */}
             </TableRow>
           ))}
         </TableBody>

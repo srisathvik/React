@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { myContext } from "@/App"
 
 const formSchema = z.object({
   stockName: z.string().min(2, {
@@ -29,16 +31,17 @@ const formSchema = z.object({
 })
 
 
-export function StockInput({prev_stock}) {
+export function StockInput() {
   // ...
+  const {modifyStock, addStock, setModifyStock, updateStock} = useContext(myContext);
   const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      stockName: prev_stock?.stockName || "",
-      ticker: prev_stock?.ticker || "",
-      quantity:prev_stock?.quantity || "",
-      buyingPrice: prev_stock?.buyingPrice || "",
+      stockName: modifyStock?.stockName || "",
+      ticker: modifyStock?.ticker || "",
+      quantity:modifyStock?.quantity || "",
+      buyingPrice: modifyStock?.buyingPrice || "",
       
     }
   })
@@ -47,13 +50,17 @@ export function StockInput({prev_stock}) {
   function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    if(prev_stock){
+    if(modifyStock){
         //make appi call to edit the stock
+        let newStock = {...modifyStock, ...values};
+        updateStock(newStock);
+        setModifyStock(undefined);
     }
     else{
         //make api call to add the stock.
+        addStock(values);
     }
-    console.log(values)
+    // console.log(values)
     form.reset();
     navigate("../")
   }
