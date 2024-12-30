@@ -22,6 +22,7 @@ import { InputWithLabel } from "./InputWithLabel"
 import { PhoneInput } from "./Phone-input"
 // import { Label } from "@/components/ui/label"
 import { Textarea } from "./ui/textarea"
+import { useNavigate } from "react-router-dom"
 
 const formSchema = z.object({
   username: z.string().min(3, {
@@ -39,7 +40,7 @@ const formSchema = z.object({
 
 export default function ProfileForm({addEntry}) {
   // ...
-
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,6 +64,7 @@ export default function ProfileForm({addEntry}) {
     values = {...values, inTime, outTime, date, isActive: true, id};
     // console.log(values);
     addEntry(values);
+    navigate("../")
     // console.log(values);
   }
 

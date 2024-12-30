@@ -18,16 +18,18 @@ function App() {
       if(entry.id === id){
         entry.outTime = new Date().toLocaleTimeString();
       }
+      return entry;
     })
-    setData(...newData);
+    setData([...newData]);
   }
   console.log(data);
+  let tableCaption = "A List of Your Recent Visits"
   return (
     <>
       <div>
         <Routes>
-          <Route path='/' element={ <Home /> } />
-          <Route path='/summary' element={ <TableDemo entries={data} endVisit={endVisit}/> } />
+          <Route path='/' element={ <Home entries={data} endVisit={endVisit} /> } />
+          <Route path='/summary' element={ <TableDemo entries={data} endVisit={endVisit} caption={tableCaption} /> } />
           <Route path='/addEntry' element={ <ProfileForm addEntry={handleInsert}/> } />
         </Routes>
         {/* <ProfileForm addEntry={handleInsert}/> */}

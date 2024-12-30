@@ -9,6 +9,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { Button } from "./ui/button"
+import { useState } from "react";
 //   const entries = [
 //     {
 //         date: "12/23/2024",
@@ -83,32 +84,38 @@ import { Button } from "./ui/button"
 //     },
 //   ]
   
-  export function TableDemo({entries, endVisit}) {
-    console.log(entries);
+  export function TableDemo({entries, endVisit, caption}) {
+    // console.log(entries);
+    const[hovered, setHovered] = useState(undefined);
     return (
       <Table>
-        <TableCaption>A list of your recent Entries.</TableCaption>
+        <TableCaption>{caption}</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Reason</TableHead>
-            <TableHead >Entry Time</TableHead>
+            <TableHead className="w-[100px] text-center">ID</TableHead>
+            <TableHead className="text-center">Name</TableHead>
+            <TableHead className="text-center">Reason</TableHead>
+            <TableHead className="text-center">Entry Time</TableHead>
             {/* <TableHead >Status</TableHead> */}
-            <TableHead >Exit Time</TableHead>
-            <TableHead >End Visit</TableHead>
+            <TableHead className="text-center">Exit Time</TableHead>
+            <TableHead ></TableHead>
 
           </TableRow>
         </TableHeader>
         <TableBody>
           {entries.map((entry) => (
-            <TableRow key={entry.id}>
-              <TableCell className="font-medium">{entry.id}</TableCell>
-              <TableCell className="font-medium">{entry.username}</TableCell>
-              <TableCell>{entry.reason}</TableCell>
-              <TableCell>{entry.inTime}</TableCell>
-              <TableCell >{entry.exitTime? entry.exitTime :"Inside"}</TableCell>
-              <TableCell ><Button className="bg-red-600" disabled={entry.exitTime === ""} onClick={()=>{endVisit(entry.id)}}>End Visit</Button></TableCell>
+            <TableRow key={entry.id} onMouseEnter={e => {
+              setHovered(entry.id);
+          }}
+          onMouseLeave={e => {
+              setHovered(undefined);
+          }}>
+              <TableCell className="font-medium text-center">{entry.id}</TableCell>
+              <TableCell className="font-medium text-center">{entry.username}</TableCell>
+              <TableCell className="text-center">{entry.reason}</TableCell>
+              <TableCell className="text-center">{entry.inTime}</TableCell>
+              <TableCell className="text-center">{entry.outTime? entry.outTime :"Inside"}</TableCell>
+              <TableCell className="text-center"><Button style={{visibility: hovered === entry.id ? "visible" : "hidden"}} disabled={entry.outTime !== ""} onClick={()=>{endVisit(entry.id)}}>End Visit</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -121,5 +128,4 @@ import { Button } from "./ui/button"
       </Table>
     )
   }
-  
   

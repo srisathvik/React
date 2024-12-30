@@ -1,7 +1,10 @@
 import Page from "@/app/dashboard/page" 
 import { Button } from "./ui/button"
 import { Link } from "react-router-dom"
-export default function Home(){
+import { CardDemo } from "./Details"
+export default function Home({entries, endVisit}){
+    // console.log(data);
+    
     return(
         // <div>Home</div>
         <>
@@ -11,11 +14,11 @@ export default function Home(){
             <div>
                 <Link to="./addEntry">Add Entry</Link>
             </div>
-            
-            <Page />
+            <CardDemo />
+            <Page entries={entries} endVisit={endVisit} />
 
             {/* <Button Link="/"></Button> */}
-            <Button>Add Visit</Button>
+            {/* <Button>Add Visit</Button> */}
 
         </>  
     )
