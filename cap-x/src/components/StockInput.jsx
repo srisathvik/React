@@ -53,12 +53,12 @@ export function StockInput() {
     if(modifyStock){
         //make appi call to edit the stock
         let newStock = {...modifyStock, ...values};
-        updateStock(newStock);
+        updateStock(newStock).then(alert);
         setModifyStock(undefined);
     }
     else{
         //make api call to add the stock.
-        addStock(values);
+        addStock(values).then(alert);
     }
     // console.log(values)
     form.reset();

@@ -80,11 +80,12 @@ export const myContext = createContext({
 function App() {
   const[stocks, setStocks] = useState(initialStocks);
   const[modifyStock, setModifyStock] = useState(undefined);
-  function handleAddStocks(stock){
+  async function handleAddStocks(stock){
     stock.id = stocks.length;
     setStocks([stock, ...stocks]);
+    return Promise.resolve("Stock added Sucessfully");
   }
-  function handleUpdateStock(modifyStock){
+  async function handleUpdateStock(modifyStock){
     // console.log(modifyStock);
     let updatedStocks = stocks.map((currStock)=>{
       if(currStock.id === modifyStock.id){
@@ -99,10 +100,12 @@ function App() {
     })
     console.log(updatedStocks);
     setStocks([...updatedStocks]);
+    return Promise.resolve("Stock Updated sucessfully");
   }
-  function handleStockDelete(stock){
+  async function handleStockDelete(stock){
     let updatedStocks = stocks.filter((currStock) => currStock.id !== stock.id);
     setStocks([...updatedStocks]);
+    return Promise.resolve("Stock Deleted Sucessfully");
   }
   const ctxValue = {
     stocks,

@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
       // console.log(stock);
     }
     function handleDelete(stock){
-      deleteStock(stock);
+      deleteStock(stock).then(alert);
       // console.log(stock);
     }
     return (
