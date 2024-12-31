@@ -2,7 +2,8 @@ import Page from "@/app/dashboard/page"
 import { Button } from "./ui/button"
 import { Link } from "react-router-dom"
 import { CardDemo } from "./Details"
-export default function Home({entries, endVisit}){
+import { Overview } from "./Overview"
+export default function Home({entries, endVisit, details}){
     // console.log(data);
     
     return(
@@ -14,7 +15,7 @@ export default function Home({entries, endVisit}){
             <div>
                 <Link to="./addEntry">Add Entry</Link>
             </div>
-            <CardDemo />
+            <Overview details={details} />
             <Page entries={entries} endVisit={endVisit} />
 
             {/* <Button Link="/"></Button> */}
