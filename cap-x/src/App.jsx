@@ -2,75 +2,14 @@ import './App.css'
 import { StockInput } from './components/StockInput'
 import { Portfolio } from './components/Portfolio'
 import { Route, Routes } from 'react-router-dom'
-import { useState, createContext } from 'react'
+import { useState, createContext, useEffect } from 'react'
+import apis from './apiServices'
+// import { resolve } from 'path'
 // const temp = {stockName: 'asdf', ticker: 'asdf', quantity: 1, price: 1};
-const initialStocks = [
-  {
-    id: 0,
-    stockName: "State Bank Of India",
-    ticker: "SBI",
-    buyingPrice: 350,
-    currentPrice: 300,
-    quantity: 1,
-    PandL: -50,
-  },
-  { 
-      id: 1,
-      stockName: "TATA STEEL LIMITED",
-      ticker: "TSL",
-      buyingPrice: 300,
-      currentPrice: 444,
-      quantity: 1,
-      PandL: 144,
-  },
-  {
-      id: 2,
-      stockName: "HERITAGE",
-      ticker: "HT",
-      buyingPrice: 250,
-      currentPrice: 200,
-      quantity: 1,
-      PandL: 50,
-  },
-  {
-      id: 3,
-      stockName: "MOTHERSON",
-      ticker: "MTS",
-      buyingPrice: 250,
-      currentPrice: 550,
-      quantity: 1,
-      PandL: 300,
-  },
-  {
-      id: 4,
-      stockName: "GOOGLE",
-      ticker: "GL",
-      buyingPrice: 550,
-      currentPrice: 570,
-      quantity: 1,
-      PandL: 20,
-  },
-  {
-      id: 5,
-      stockName: "NVIDIA",
-      ticker: "NVD",
-      buyingPrice: 700,
-      currentPrice: 720,
-      quantity: 1,
-      PandL: 20,
-  },
-  { 
-      id: 6,
-      stockName: "MICROSOFT LIMITED",
-      ticker: "MSL",
-      buyingPrice: 450,
-      currentPrice: 444,
-      quantity: 1,
-      PandL: -6,
-  },
-]
+
 export const myContext = createContext({
   stocks:[],
+  overViewData:{},
   addStock:()=>{},
   modifyStock: undefined,
   setModifyStock: ()=>{},
@@ -78,14 +17,39 @@ export const myContext = createContext({
   deleteStock: ()=>{},
 })
 function App() {
-  const[stocks, setStocks] = useState(initialStocks);
+  // console.log(initialStocks);
+  const[stocks, setStocks] = useState([]);
+  const[overViewData ,setOverViewData] = useState();
   const[modifyStock, setModifyStock] = useState(undefined);
+  // const[shouldRender, setShouldRender] = useState(true);
+  useEffect(()=>{
+    getData();
+    apis.loadStocks();
+  }, []);
+
+
+  async function getData() {
+    console.log("fetching");
+    const StocksRes = await apis.getStocks();
+    // const overView = await apis.getOverview();
+    // console.log(OverviewRes);
+    setStocks(StocksRes);
+    // setOverViewData(overView);
+  }
+  
+
   async function handleAddStocks(stock){
-    stock.id = stocks.length;
-    setStocks([stock, ...stocks]);
-    return Promise.resolve("Stock added Sucessfully");
+    // stock.id = stocks[stocks.length-1].id + 1;
+    console.log(stock);
+    //sending post request 
+    await apis.post(stock);
+
+    // again fetching the updated data.
+    getData();
   }
   async function handleUpdateStock(modifyStock){
+
+    // await apis.put(modifyStock);
     // console.log(modifyStock);
     let updatedStocks = stocks.map((currStock)=>{
       if(currStock.id === modifyStock.id){
@@ -105,10 +69,12 @@ function App() {
   async function handleStockDelete(stock){
     let updatedStocks = stocks.filter((currStock) => currStock.id !== stock.id);
     setStocks([...updatedStocks]);
+    const res= await apis.delete(stock.id);
     return Promise.resolve("Stock Deleted Sucessfully");
   }
   const ctxValue = {
     stocks,
+    overViewData,
     addStock: handleAddStocks,
     modifyStock,
     setModifyStock,

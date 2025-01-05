@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
       // console.log(stock);
     }
     function handleDelete(stock){
-      deleteStock(stock).then(alert);
+      const res = deleteStock(stock).then(alert);
       // console.log(stock);
     }
     return (
@@ -39,7 +39,7 @@ import { useNavigate } from "react-router-dom";
             {/* <TableHead>Ticker</TableHead> */}
             <TableHead>Quantity</TableHead>
             <TableHead>Invested Amount</TableHead>
-            <TableHead>Cuurent Amount</TableHead>
+            <TableHead>Curent Amount</TableHead>
             <TableHead className="text-center">P&L</TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -52,17 +52,17 @@ import { useNavigate } from "react-router-dom";
           onMouseLeave={e => {
               setHovered(undefined);
           }}>
-           {/* {let p = (stock.quantity * stock.currentPrice) - (stock.quantity * stock.buyingPrice)} */}
+           {/* {let p = (stock.quantity * stock.current_price) - (stock.quantity * stock.buying_price)} */}
               {/* <div > */}
-                <TableCell className="font-medium">{stock.stockName}</TableCell>
+                <TableCell className="font-medium">{stock.stock_name}</TableCell>
                 {/* <TableCell className="font-medium">{stock.ticker}</TableCell> */}
                 <TableCell className="text-center">{stock.quantity}</TableCell>
-                <TableCell className="text-center">{stock.quantity * stock.buyingPrice}</TableCell>
-                <TableCell className="text-center">{stock.quantity * stock.currentPrice}</TableCell>
-                <TableCell className={`text-center ${stock.PandL > 0? "text-green-500" : "text-red-500"}`}>
+                <TableCell className="text-center">{stock.buying_price}</TableCell>
+                <TableCell className="text-center">{stock.current_price}</TableCell>
+                <TableCell className={`text-center ${stock.p_and_l   > 0? "text-green-500" : "text-red-500"}`}>
                   <div>
-                    <p>{stock.PandL}</p>
-                    <p>({(100 * stock.PandL / stock.currentPrice).toFixed(2)} % )</p>
+                    <p>{stock.p_and_l}</p>
+                    <p>({(100 * stock.p_and_l / stock.buying_price).toFixed(2)} % )</p>
                   </div>  
                 </TableCell>
                 <TableCell className="text-right">
