@@ -16,20 +16,27 @@ import {
 import { Input } from "@/components/ui/input"
 import { PhoneInput } from "@/components/ui/phone-input"
 import { Textarea } from "@/components/ui/textarea"
+import { myContext } from "@/App"
+import { useContext } from "react"
 
 const formSchema = z.object({
-  name: z.string(),
-  mobile: z.string(),
-  reason: z.string()
+  name: z.string().min(2, {message: "Name must be atleast 2 characters"}),
+  mobile: z.string().min(13, {message: "Mobile number should be 10 digits"}).max(13, {message: "Mobile number should be 10 digits"}),
+  reason: z.string().min(4, {message: "Reason must be atleast 4 characters"})
 })
 
 export default function InputForm() {
+  const{addVisit} = useContext(myContext);
   const form = useForm({
     resolver: zodResolver(formSchema)
   })
 
-  function onSubmit(values) {
-      console.log(values)
+  
+
+  function onSubmit(visit) {
+
+      // console.log(values)
+    addVisit(visit);
       
   }
 
@@ -37,7 +44,7 @@ export default function InputForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto py-10"
+        className="space-y-8 max-w-3xl mx-auto py-7"
       >
         <FormField
           control={form.control}
